@@ -1,21 +1,22 @@
-import textwrap
+import textwrap # Usado para quebrar linhas e formatar textos
 
 
 def menu():
     menu = """\n
     ================ MENU ================
-    [d]\tDepositar
-    [s]\tSacar
-    [e]\tExtrato
-    [nc]\tNova conta
-    [lc]\tListar contas
-    [nu]\tNovo usuário
-    [q]\tSair
+    [0]\tDepositar
+    [1]\tSacar
+    [2]\tExtrato
+    [3]\tNova conta
+    [4]\tListar contas
+    [5]\tNovo usuário
+    [6]\tSair
+    =======================================
     => """
-    return input(textwrap.dedent(menu))
+    return input(textwrap.dedent(menu)) # dedent tira os espaços extras
 
 
-def depositar(saldo, valor, extrato, /):
+def depositar(saldo, valor, extrato, /): # função feita com posição
     if valor > 0:
         saldo += valor
         extrato += f"Depósito:\tR$ {valor:.2f}\n"
@@ -26,7 +27,7 @@ def depositar(saldo, valor, extrato, /):
     return saldo, extrato
 
 
-def sacar(*, saldo, valor, extrato, limite, numero_saques, limite_saques):
+def sacar(*, saldo, valor, extrato, limite, numero_saques, limite_saques): #função nomeada
     excedeu_saldo = valor > saldo
     excedeu_limite = valor > limite
     excedeu_saques = numero_saques >= limite_saques
@@ -89,7 +90,7 @@ def criar_conta(agencia, numero_conta, usuarios):
         print("\n=== Conta criada com sucesso! ===")
         return {"agencia": agencia, "numero_conta": numero_conta, "usuario": usuario}
 
-    print("\n@@@ Usuário não encontrado, fluxo de criação de conta encerrado! @@@")
+    print("\n@@@ Usuário não encontrado, fluxo de criação de conta encerrado! @@@") #Quando não encontra
 
 
 def listar_contas(contas):
@@ -117,12 +118,12 @@ def main():
     while True:
         opcao = menu()
 
-        if opcao == "d":
+        if opcao == "0":
             valor = float(input("Informe o valor do depósito: "))
 
             saldo, extrato = depositar(saldo, valor, extrato)
 
-        elif opcao == "s":
+        elif opcao == "1":
             valor = float(input("Informe o valor do saque: "))
 
             saldo, extrato = sacar(
@@ -134,23 +135,23 @@ def main():
                 limite_saques=LIMITE_SAQUES,
             )
 
-        elif opcao == "e":
+        elif opcao == "2":
             exibir_extrato(saldo, extrato=extrato)
 
-        elif opcao == "nu":
+        elif opcao == "3":
             criar_usuario(usuarios)
 
-        elif opcao == "nc":
-            numero_conta = len(contas) + 1
+        elif opcao == "4":
+            numero_conta = len(contas) + 1 #sempre que criar mais uma conta ele soma +1
             conta = criar_conta(AGENCIA, numero_conta, usuarios)
 
             if conta:
                 contas.append(conta)
 
-        elif opcao == "lc":
+        elif opcao == "5":
             listar_contas(contas)
 
-        elif opcao == "q":
+        elif opcao == "6":
             break
 
         else:
